@@ -1,6 +1,6 @@
 {
   "name": "angularjs-react",
-  "version": "1.0.1-ppb",
+  "version": "1.0.2-ppb",
   "description": "A library for using React components as AngularJS directives",
   "main": "dist/angularjs-react.js",
   "scripts": {
