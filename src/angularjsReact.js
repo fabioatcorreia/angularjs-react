@@ -170,22 +170,14 @@ class Instance {
     const children = this.markup.hasChildren ? this.getChildren(this.angularParent) : undefined;
     ReactDOM.render(React.createElement(
       component.type,
-      angular.extend({},
-        { ...component.props },
-        { ref: ref => {
-          if (this.replace) {
-            // FIXME: when trying to interact with replaced components (e.g. removing them), this breaks because `reactParent` is no longer attached to the DOM
-            angular.element(this.elem.parentNode.childNodes[this.nodeIndex]).replaceWith(angular.element(this.reactParent).contents());
-          }
-          this.refCallbacks.forEach(cb => cb(ref));
-        } }),
+      angular.extend({}, { ...component.props }),
       children), this.reactParent);
     this.renderPending = false;
   };
 
   scheduleRender = () => {
     if (!this.renderPending) {
-      this.$timeout(this.render);
+      this.$scope.$applyAsync(this.render);
       this.renderPending = true;
     }
   };
@@ -199,10 +191,6 @@ class Instance {
         this.props[inputProps[i]] = value;
         this.scheduleRender();
       }, true);
-      this.$scope.$watch(this.$attrs[key], (value) => {
-        this.props[inputProps[i]] = value;
-        this.scheduleRender();
-      });
     });
 
     //Immutable inputs
@@ -224,7 +212,7 @@ class Instance {
         + key.substring(CALLBACK_PREFIX.length + 1));
     callbackAttrs.forEach((key, i) => {
       this.props[callbackProps[i]] = (...args) => {
-        this.$timeout(() => this.$scope.$eval(this.$attrs[key], { arg: args[0], args }));
+        this.$scope.$applyAsync(this.$attrs[key], { arg: args[0], args });
       };
     });
   };

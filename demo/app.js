@@ -29,8 +29,8 @@ angular.module('demo', [])
     $scope.url = 'https://github.com/jeremyhewett/angularjs-react';
     $scope.showDetails = false;
 
-    $scope.toggleDetails = function () {
-      $scope.showDetails = !$scope.showDetails;
+    $scope.toggleDetails = function (arg) {
+      $scope.showDetails = !arg;
     };
   })
   .controller('DatePickerCtrl', ($scope) => {
