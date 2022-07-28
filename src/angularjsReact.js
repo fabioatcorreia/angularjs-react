@@ -187,6 +187,8 @@ class Instance {
     let inputProps = inputAttrs.map((key) => key.substring(INPUT_PREFIX.length, INPUT_PREFIX.length + 1).toLowerCase()
       + key.substring(INPUT_PREFIX.length + 1));
     inputAttrs.forEach((key, i) => {
+      this.props[inputProps[i]] = this.$scope.$eval(this.$attrs[key]);
+
       this.$scope.$watch(this.$attrs[key], (value) => {
         this.props[inputProps[i]] = value;
         this.scheduleRender();
@@ -198,6 +200,8 @@ class Instance {
     let iinputProps = iinputAttrs.map((key) => key.substring(IINPUT_PREFIX.length, IINPUT_PREFIX.length + 1).toLowerCase()
       + key.substring(IINPUT_PREFIX.length + 1));
     iinputAttrs.forEach((key, i) => {
+      this.props[iinputProps[i]] = this.$scope.$eval(this.$attrs[key]);
+
       this.$scope.$watch(this.$attrs[key], (value) => {
         this.props[iinputProps[i]] = value;
         this.scheduleRender();

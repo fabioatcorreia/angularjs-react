@@ -11,6 +11,12 @@ const GithubIcon = (
   </svg>
 );
 
+function ReactList({items}) {
+  return (<div className="react-list">
+    {items.map((item, index) => (<div key={index}>{JSON.stringify(item)}</div>))}
+    </div>);
+}
+
 function ReactContainer({data, children}) {
   return <div className="react-container">{data}{children}</div>
 }
@@ -24,6 +30,7 @@ angular.module('demo', [])
   .directive('githubIcon', directify(() => GithubIcon))
   .directive('reactRow', directify(Row))
   .directive('reactContainer', directify(ReactContainer))
+  .directive('reactList', directify(ReactList))
   .controller('ButtonCtrl', ($scope) => {
     $scope.text = 'Code';
     $scope.url = 'https://github.com/jeremyhewett/angularjs-react';
